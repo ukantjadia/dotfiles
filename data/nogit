@@ -31,7 +31,7 @@ then
 
     ## Taking branch name 
     echo ''
-    branc=$(git branch | awk -v FS=' ' '{print $1}')
+    branc=$(git branch | awk -v FS=' ' '{print $2}')
     echo "You are on branch $branc"
     ## asking to push the changes 
     echo "Do you want it to push to the repo[y|n]"
