@@ -1,0 +1,11 @@
+#!/bin/sh
+
+picom &
+wal -R &
+dwmblocks &
+obsidian &
+inkdrop & 
+#discord &
+firefox & 
+telegram-desktop & 
+exec dwm

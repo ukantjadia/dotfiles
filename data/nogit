@@ -1,0 +1,57 @@
+#!/bin/bash
+
+#URL=$(git remote -v)
+## Taking the current dir origin url 
+URL=$(git remote -v |sed '1,1d' | awk '{$1=" "}1' | awk '{$2=""}1')
+URLM=${URL%/*}  # Editing the url for comparison
+## Your base url for comparison 
+URL_OWN='https://github.com/UserCtf777'
+
+## Comparing the dir base url to your base url 
+if [ "$URLM" == "$URL_OWN" ]
+then 
+    echo "remote url is $URL"
+# FFE : For Future Edit    
+    #git status >> /dev/null
+    #echo $?
+    #if [ "$?" == 0 ]
+    #then 
+    git status
+    echo "Adding changes to git "
+    ## Changes added 
+    git add .
+
+    echo ''
+    print "Enter the commit message"
+    read comm
+    echo "Commiting the changes" 
+    ## Changes are commited
+    git commit -m "$comm"
+    sleep 1 # sleep for 1 sec
+
+    ## Taking branch name 
+    echo ''
+    branc=$(git branch | awk -v FS=' ' '{print $1}')
+    echo "You are on branch $branc"
+    ## asking to push the changes 
+    echo "Do you want it to push to the repo[y|n]"
+    read pus
+
+    if [ "$pus" == "y" ]
+    then 
+	echo ''
+	git push -u origin "$branc"
+    else
+	echo "exiting !!!~~" 
+	exit
+    fi
+# FFE
+    #else
+    #	echo "everything is done "
+    #	git status 
+    #fi
+else 
+    echo "remote url $URL"
+    echo "Please change origin URL"
+fi
+    

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+wa=$(ls ~/pix/wallhaven | shuf -n 1)
+#echo $wa 
+#convert "$wa" ~/.local/share/wallch.png
+#xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual1/workspace0/last-image -s ~/pix/wallheace/"$wa"
+
+wal -qi ~/pix/wallhaven/$wa >/dev/null
+notify-send --expire-time=4 'Wallpaper Changed!!!'
+#feh --bg-fill ~/pix/wallheaven/$wa
+sed -i 'N;$!P;D' $HOME/.cache/wal/colors-wal-dwm.h
+# source ~/.local/bin/re_dwm & 
+
+#echo 'Recompiling the st '
+#(cd $HOME/.config/st-flexipatch && sudo make clean install > /dev/null )
+#echo 'Recompiling the Dmenu'
+#(cd $HOME/.config/dmenu && sudo make clean install > /dev/null )
+echo 'Recompiling the dwm'
+(cd $HOME/.config/dwm && sudo make clean install > /dev/null)

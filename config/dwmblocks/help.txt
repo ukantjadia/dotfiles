@@ -1,0 +1,9 @@
+# during instalation you might face an error of no finding --libs X11 (-lX11)
+
+# bypass this we have to the manuall installation of dwmblocks.c file
+# for that try the following command
+
+gcc dwmblocks.c -lX11 -o dwmblocks 
+
+
+# then you have to manually copy the dwmblocks to /usr/local/bin so that it can run from any where

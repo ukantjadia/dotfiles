@@ -1,0 +1,8 @@
+#!/bin/bash
+
+wa=$(ls ~/pix/wallhaven | shuf -n 1)
+wal -q -i ~/pix/wallhaven/$wa
+sed -i 'N;$!P;D' $HOME/.cache/wal/colors-wal-dwm.h 
+echo 'Type (walc) to compile the dwm,dmenu,st'
+wal -q -R
+
