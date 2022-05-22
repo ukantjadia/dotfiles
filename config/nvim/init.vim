@@ -9,13 +9,15 @@
 :set number
 :set incsearch
 :set autoread
-"set autocmd
-
+":set completeopt=noinsert,menuone,noselect " For No Previews
+:set t_Co=256
 call plug#begin()
 
+Plug 'dracula/vim',{'as':'dracula'} " Dracula theme for nivm 
 Plug 'http://github.com/tpope/vim-surround' " Surrounding ysw)
 Plug 'https://github.com/preservim/nerdtree' " NerdTree
 Plug 'https://github.com/tpope/vim-commentary' " For Commenting gcc & gc
+Plug 'jiangmiao/auto-pairs' " for automatically clses paraenthieses,square
 Plug 'https://github.com/vim-airline/vim-airline' " Status bar
 "Plug 'https://github.com/lifepillar/pgsql.vim' " PSQL Pluging needs :SQLSetType pgsql.vim
 Plug 'https://github.com/ap/vim-css-color' " CSS Color Preview
@@ -27,7 +29,6 @@ Plug 'https://github.com/preservim/tagbar' " Tagbar for code navigation
 Plug 'https://github.com/terryma/vim-multiple-cursors' " CTRL + N for multiple cursors
 "Plug 'nvim-telescope/telescope.nvim' " telecope like fuzzy file finder
 Plug 'nvim-telescope/telescope-fzf-native.nvim',{ 'do': 'make' } " telecope like fuzzy file finder
-"
 Plug 'ellisonleao/glow.nvim', {'branch': 'main'}
 
 " for markdown editor
@@ -55,7 +56,7 @@ nnoremap <C-H> <C-W><C-H>
 
 " User key maps
 imap jj <esc>
-
+"nnoremap jj <esc>
 " kemaps for compiling and running the code
 " for CPP
 nnoremap cpp :!c++ % -o %:r && %:r:<CR>
@@ -73,10 +74,6 @@ nnoremap ,j :!javac % && java %:r<CR>
 nmap <C-s> <Plug>MarkdownPreview
 nmap <M-s> <Plug>MarkdownPreviewStop
 nmap <C-p> <Plug>MarkdownPreviewToggle
-
-
-
-
 
 """" Filetype-Specific Configuration 
 " Markdown and Journal 
@@ -101,12 +98,13 @@ nnoremap <C-l> :call CocActionAsync('jumpDefinition')<CR>
 
 nmap <F8> :TagbarToggle<CR>
 
-:set completeopt-=preview " For No Previews
 
 ":colorscheme dracula 
 ":colorscheme sonokai 
-":colorscheme happy_hacking.vim 
-":colorscheme snow.vim 
+":colorscheme gotham  
+":colorscheme onedark 
+":colorscheme dogrun 
+
 
 let g:NERDTreeDirArrowExpandable="+"
 let g:NERDTreeDirArrowCollapsible="~"
