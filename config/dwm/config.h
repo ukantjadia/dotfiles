@@ -3,7 +3,7 @@
 #define TERMCLASS "st"
 #define termclass "qterminal"
 /* appearance */
-static const unsigned int borderpx  = 5;        /* border pixel of windows */
+static const unsigned int borderpx  = 4;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
@@ -11,7 +11,8 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 //static const char *fonts[]          = { "JetBrains Mono:size=18", "JoyPixels:pixelsize=16:antialias=true:autohint=true"};
 
 
-static const char *fonts[]          = { "Hack Nerd Font Mono:Regular:pixelsize=20:antialias:true:autohint:true"}; 
+//static const char *fonts[]          = { "Symbola:pixelsize=20:antialias:true:autohint:true"}; 
+static const char *fonts[]          = { "Hack Nerd Font Mono:Regular:pixelsize=20:antialias:true:autohint:true","Symbola:pixelsize=20:antialias:true:autohint:true"}; 
 	//"monospace:size=26", "NotoColorEmoji:pixelsize=26" };
 
 static const char dmenufont[]       = "Hack Nerd Font Mono:pixelsize=18:antialias=true:autohint=true";
@@ -31,7 +32,6 @@ static const char *colors[][3]      = {
 #include "/home/kali/.cache/wal/colors-wal-dwm.h"
 /* tagging */
 static const char *tags[] = { ">_", "{}", "^_^", "","", "ﭮ", "", "", "www" };
-
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
@@ -39,7 +39,8 @@ static const Rule rules[] = {
 	 */
 	/* class      	instance    title       	tags mask     isfloating   monitor */
 	{ "Gimp",     	NULL,       NULL,       	0,            1,           -1 },
-	{ "Firefox",  	NULL,       NULL,       	1 << 8,       0,           -1 },
+	//{ "Firefox",  	NULL,       NULL,       	1 << 8,       0,           -1 },
+	{ "Brave-browser",  	NULL,       NULL,       	1 << 8,       0,           -1 },
 	{ "obsidian",  	NULL,       NULL,       	1 << 7,       0,           -1 },
 	{ "Telegram",  	NULL,       NULL,       	1 << 5,       1,           -1 },
 	{ "st-256color","BashTOP",       NULL,       	1 << 3,       1,           -1 },
@@ -77,11 +78,14 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont }; static const char *termcmd[]  = { "st", NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont };
+static const char *termcmd[]  = { "st", NULL };
+static const char *termcmd1[]  = { "qterminal", NULL };
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_space,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd1 } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },

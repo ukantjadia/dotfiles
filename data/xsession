@@ -6,6 +6,10 @@ dwmblocks &
 obsidian &
 inkdrop & 
 #discord &
-firefox & 
 telegram-desktop & 
-exec dwm
+brave-browser &
+# Running dwm in loop to avoid the restart
+while true; do 
+    /usr/local/bin/dwm 2> /dev/null
+done
+#exec dwm
