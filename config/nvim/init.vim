@@ -1,18 +1,39 @@
+let mapleader=","
 :set relativenumber
 :set autoindent
 :set tabstop=8
 :set shiftwidth=4
 :set smarttab
 :set softtabstop=4
-:set mouse=a
+:set mouse-=a
 :set nowrap
 :set number
 :set incsearch
 :set autoread
-":set completeopt=noinsert,menuone,noselect " For No Previews
+:set noswapfile " Dont use swap files and clog up with work
 :set t_Co=256
+:set encoding=utf-8
+:set title
+" setting split veiw
+:set splitbelow
+:set splitright
+:set expandtab " Expand TABs to spaces
+:set clipboard=unnamed,unnamedplus " Allow copied vim text to also added to clipboard
+:set ignorecase " search ignoreing case 
+:set nocompatible "Dont worry about VI compatability
+:set nohlsearch " Disable search highlighting 
+" Enabling the auto commenting on new line 
+    autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+" goyo plugin edit
+    map <leader>f :Goyo \| set bg=light \| set linebreak<CR>
+
+
 call plug#begin()
 
+Plug 'vim-pandoc/vim-rmarkdown' " Plug in for RMarkdown 
+Plug 'junegunn/goyo.vim' " it makes text more readable when writting prose
+Plug 'vim-pandoc/vim-pandoc' " The pandoc vim plug for markdown 
+Plug 'vim-pandoc/vim-pandoc-syntax' " The pandoc plug require the systax plug in also
 Plug 'dracula/vim',{'as':'dracula'} " Dracula theme for nivm 
 Plug 'http://github.com/tpope/vim-surround' " Surrounding ysw)
 Plug 'https://github.com/preservim/nerdtree' " NerdTree
@@ -30,7 +51,6 @@ Plug 'https://github.com/terryma/vim-multiple-cursors' " CTRL + N for multiple c
 "Plug 'nvim-telescope/telescope.nvim' " telecope like fuzzy file finder
 Plug 'nvim-telescope/telescope-fzf-native.nvim',{ 'do': 'make' } " telecope like fuzzy file finder
 Plug 'ellisonleao/glow.nvim', {'branch': 'main'}
-
 " for markdown editor
 Plug 'davidgranstrom/nvim-markdown-preview' " review in the broswer in real time
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' } " same as above with more glyphs features
@@ -38,25 +58,58 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' } " same a
 Plug 'vim-scripts/bats.vim'
 Plug 'vim-scripts/bash-support.vim'
 Plug 'auxiliary/vim-layout'
-
-set encoding=UTF-8
+" fuzzy finder for files
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " fuzzy finder for files
+Plug 'junegunn/fzf.vim'
 
 call plug#end()
 
 " key maps edits
 " split navigation
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
+nnoremap <C-J> <C-J>
+nnoremap <C-K> <C-K>
+nnoremap <C-L> <C-L>
+nnoremap <C-H> <C-H>
+" Fzf keymaps
+    nnoremap <C-c> :Color<CR>
+    nnoremap <C-f> :Files<CR>
+" CTRL-/ will t-popes commentary for commenting out code
+    map <C-/> gcc
+"
 
-" setting split veiw
-:set splitbelow
-:set splitright
+" fzf setting layout 
+" Popup window -- anchored to the bottom  of the current window
+    let g:fzf_layout = { 'window': {'width': 0.9, 'height': 0.6, 'relative': v:true, 'yoffset': 1.0} }
 
-" User key maps
+" Replace ex mode with jj 
 imap jj <esc>
-"nnoremap jj <esc>
+
+" Compile document, be it groff/latex/markdown/etc. 
+    map <leader>c :w! \| !compiler <c-r>%<CR>
+" Turn on Autocompiler mode 
+    map <leader>a :!setsid autocomp % &<CR>
+"Open corresponding .pdf/.html or preview 
+    map <leader>p :!opout <c-r>%<CR><CR>    
+    
+
+" When shortcut files are updated, renew bash and ranger configs with new material:
+    autocmd BufWritePost bm-files,bm-dirs !shortcuts
+" Run xrdb whenever Xdefaults or Xresources are updated.
+    autocmd BufRead,BufNewFile Xresources,Xdefaults,xresources,xdefaults set filetype=xdefaults
+    autocmd BufWritePost Xresources,Xdefaults,xresources,xdefaults !xrdb %
+" Recompile dwmblocks on config edit.
+    autocmd BufWritePost ~/.local/src/dwmblocks/config.h !cd ~/.local/src/dwmblocks/; sudo make install && { killall -q dwmblocks;setsid -f dwmblocks }
+" Compiling rmd document 
+    autocmd Filetype markdown map <F5> :!pandoc<space><C-r>%<space>-o<space><C-r>%.pdf<Enter><Enter>
+    "autocmd Filetype rmd map <F5> :!echo<space>"require(rmarkdown);<space>render('<c-r>%')"<space>\|<space>--vanilla<enter>
+    autocmd Filetype rmd map <F5> :!echo<space>"require(rmarkdown);<space>render('<c-r>%')"<space>
+    "autocmd Filetype rmd innoremap ;r ```{r,<space>echo=TRUE}<CR>```<CR><CR><esc>2k0
+
+" Save file as sudo on files that require root permission
+   cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
+
+
+
 " kemaps for compiling and running the code
 " for CPP
 nnoremap cpp :!c++ % -o %:r && %:r:<CR>
@@ -83,16 +136,16 @@ autocmd FileType journal setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
 
 " Telescope mappings
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-nnoremap <leader>fc <cmd>Telescope colorscheme<cr>
-nnoremap <leader>f/ <cmd>Telescope current_buffer_fuzzy_find<cr>
+"nnoremap <leader>ff <cmd>Telescope find_files<cr>
+"nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+"nnoremap <leader>fb <cmd>Telescope buffers<cr>
+"nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+"nnoremap <leader>fc <cmd>Telescope colorscheme<cr>
+"nnoremap <leader>f/ <cmd>Telescope current_buffer_fuzzy_find<cr>
 
 " keymaps for the nerdTree
-nnoremap <C-f> :NERDTreeFocus<CR>
-nnoremap <C-n> :NERDTree<CR>
+"nnoremap <C-f> :NERDTreeFocus<CR>
+"nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-l> :call CocActionAsync('jumpDefinition')<CR>
 
@@ -100,7 +153,7 @@ nmap <F8> :TagbarToggle<CR>
 
 
 ":colorscheme dracula 
-":colorscheme sonokai 
+:colorscheme sonokai 
 ":colorscheme gotham  
 ":colorscheme onedark 
 ":colorscheme dogrun 
@@ -109,13 +162,6 @@ nmap <F8> :TagbarToggle<CR>
 let g:NERDTreeDirArrowExpandable="+"
 let g:NERDTreeDirArrowCollapsible="~"
 
-" --- Just Some Notes ---
-" :PlugClean :PlugInstall :UpdateRemotePlugins
-"
-" :CocInstall coc-python
-" :CocInstall coc-clangd
-":CocInstall coc-snippets
-" :CocCommand snippets.edit... FOR EACH FILE TYPE
 
 " air-line
 let g:airline_powerline_fonts = 1
@@ -133,4 +179,4 @@ let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 
-inoremap <expr> <Tab> pumvisible() ? coc#_select_confirm() : "<Tab>"
+"inoremap <expr> <Tab> pumvisible() ? coc#_select_confirm() : "<Tab>"

@@ -16,8 +16,9 @@ alias grep="grep --ignore-case"
 alias cp="cp -iv"
 alias mv="mv -iv"
 alias mkd="mkdir -pv"
+alias fzf="fzf --tac --height=20 --color=dark --border=sharp --no-unicode"
 alias rm="rm -vI"
-alias hst="history | cut -c 8- | uniq | fzf | tr -d '\n' | xclip -selection c"
+alias hst="history | cut -c 8- | uniq -u | fzf --tac --height=15 --border=sharp --color=dark --no-unicode | tr -d '\n' | xclip -selection c"
 # sudo not required for some system commands
 #for command in mount umount sv pacman updatedb su shutdown poweroff reboot ; do
 #	alias $command="sudo $command"
@@ -269,4 +270,4 @@ fi
 source ~/.config/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ ! -f ~/.local/home/.p10k.zsh ]] || source ~/.local/home/.p10k.zsh
