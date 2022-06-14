@@ -25,7 +25,16 @@ alias hst="history | cut -c 8- | uniq -u | fzf --tac --height=15 --border=sharp 
 #done; unset command
 
 
+server_ssh() {
+    ssh root@13.127.163.20
+}
+catl() {
+    batcat $1 | less
+}
 
+catb() {
+    batcat $1 
+}
 
 sdwm()  {
 	sed -i 'N;$!P;D' ~/.cache/wal/colors-wal-dwm.h
