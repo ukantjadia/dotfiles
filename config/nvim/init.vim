@@ -10,11 +10,10 @@ let mapleader=","
 :set number
 :set incsearch
 :set autoread
-:set noswapfile " Dont use swap files and clog up with work
+":set noswapfile " Dont use swap files and clog up with work
 :set t_Co=256
-:set encoding=utf-8
-:set title
 " setting split veiw
+:set formatoptions-=cro
 :set splitbelow
 :set splitright
 :set expandtab " Expand TABs to spaces
@@ -23,9 +22,12 @@ let mapleader=","
 :set nocompatible "Dont worry about VI compatability
 :set nohlsearch " Disable search highlighting 
 " Enabling the auto commenting on new line 
-    autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+    "autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 " goyo plugin edit
     map <leader>f :Goyo \| set bg=light \| set linebreak<CR>
+
+
+
 
 
 call plug#begin()
@@ -33,6 +35,7 @@ call plug#begin()
 Plug 'vim-pandoc/vim-rmarkdown' " Plug in for RMarkdown 
 Plug 'junegunn/goyo.vim' " it makes text more readable when writting prose
 Plug 'vim-pandoc/vim-pandoc' " The pandoc vim plug for markdown 
+Plug 'mrjones2014/smart-splits.nvim'
 Plug 'vim-pandoc/vim-pandoc-syntax' " The pandoc plug require the systax plug in also
 Plug 'dracula/vim',{'as':'dracula'} " Dracula theme for nivm 
 Plug 'http://github.com/tpope/vim-surround' " Surrounding ysw)
@@ -84,7 +87,15 @@ nnoremap <C-H> <C-H>
 " Replace ex mode with jj 
 imap jj <esc>
 
-" Compile document, be it groff/latex/markdown/etc. 
+" keymaps for resize or spliting the pans
+nnoremap <silent> <C-S-Up> :resize +3<CR>
+nnoremap <silent> <C-S-Down> :resize -3<CR>
+nnoremap <silent> <C-S-Left> :vertical resize +3<CR>
+nnoremap <silent> <C-S-Right> :vertical resize -3<CR>
+
+
+
+"Compile document, be it groff/latex/markdown/etc. 
     map <leader>c :w! \| !compiler <c-r>%<CR>
 " Turn on Autocompiler mode 
     map <leader>a :!setsid autocomp % &<CR>
@@ -100,12 +111,16 @@ imap jj <esc>
 " Recompile dwmblocks on config edit.
     autocmd BufWritePost ~/.local/src/dwmblocks/config.h !cd ~/.local/src/dwmblocks/; sudo make install && { killall -q dwmblocks;setsid -f dwmblocks }
 " Compiling rmd document 
-    autocmd Filetype markdown map <F5> :!pandoc<space><C-r>%<space>-o<space><C-r>%.pdf<Enter><Enter>
-    "autocmd Filetype rmd map <F5> :!echo<space>"require(rmarkdown);<space>render('<c-r>%')"<space>\|<space>--vanilla<enter>
-    autocmd Filetype rmd map <F5> :!echo<space>"require(rmarkdown);<space>render('<c-r>%')"<space>
+"    autocmd Filetype markdown map <F5> :!pandoc<space><C-r>%<space>-o<space><C-r>%.pdf<CR>
+    autocmd Filetype markdown map <F5> :!pandoc<space><C-r>%<space>-o<space><C-r>%.html<Enter><Enter>
+   " autocmd Filetype rmd map <F5> :!echo<space>"require(rmarkdown);<space>render('<c-r>%')"<space>\|<space>--vanilla<CR>
+    "autocmd Filetype rmd map <F5> :!echo<space>"require(rmarkdown);<space>render('<c-r>%')"<space>
     "autocmd Filetype rmd innoremap ;r ```{r,<space>echo=TRUE}<CR>```<CR><CR><esc>2k0
-
-" Save file as sudo on files that require root permission
+" Own commadn 
+"    autocmd Filetype rmd map <F5> :RMarkdown html - quiet=FALSE - toc=FALSE<CR>
+    autocmd Filetype rmd map <F5> :RMarkdown html <CR>
+    "autocmd Filetype rmd map <F5> :RMarkdown html - quite=FALSE <CR>
+    " Save file as sudo on files that require root permission
    cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
 
@@ -153,11 +168,11 @@ nmap <F8> :TagbarToggle<CR>
 
 
 ":colorscheme dracula 
-:colorscheme sonokai 
+":colorscheme sonokai 
 ":colorscheme gotham  
 ":colorscheme onedark 
 ":colorscheme dogrun 
-
+:colorscheme purify
 
 let g:NERDTreeDirArrowExpandable="+"
 let g:NERDTreeDirArrowCollapsible="~"
@@ -179,4 +194,4 @@ let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 
-"inoremap <expr> <Tab> pumvisible() ? coc#_select_confirm() : "<Tab>"
+inoremap <expr> <Tab> pumvisible() ? coc#_select_confirm() : "<Tab>"
