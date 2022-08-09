@@ -1,17 +1,20 @@
 #!/bin/bash - 
 #===============================================================================
 #
-#          FILE: main.sh
+#          FILE: connect.sh
 # 
-#         USAGE: ./main.sh 
+#         USAGE: ./connect 
 # 
-#   DESCRIPTION: 
+#   DESCRIPTION: It provide a menu using dmenu with option of connect,add,remove
+#                This script is use to connect to ssh with only some key strokes.
+#                You can also add SSH Client username and ip/hostname.
+#                Removel of an SSH Client user is also possible through its menu.
 # 
 #       OPTIONS: ---
-#  REQUIREMENTS: ---
+#  REQUIREMENTS: SSH Client, SSH Server, dmenu
 #          BUGS: ---
-#         NOTES: ---
-#        AUTHOR: YOUR NAME (), 
+#         NOTES: It store the ip address and username at $HOME/.local/file 
+#        AUTHOR: Ukant Jadia
 #  ORGANIZATION: 
 #       CREATED: 07/23/2022 00:41
 #      REVISION:  ---
