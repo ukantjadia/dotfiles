@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# use neovim for vim if present 
+[ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
+
+### alias
+alias cat="batcat"
+alias bst="bashtop"
+alias grep="grep --ignore-case"
+alias cp="cp -v"
+alias mv="mv -v"
+alias mkd="mkdir -pv"
+alias fzf="fzf --tac --height=20 --color=dark --border=sharp --no-unicode"
+alias rm="rm -v"
+alias hst="history | cut -c 8- | fzf --tac --height=15 --border=sharp --color=dark --no-unicode | tr -d '\n' | xclip -selection c"
+#alias hst="history | cut -c 8- | uniq -u | fzf --tac --height=15 --border=sharp --color=dark --no-unicode | tr -d '\n' | xclip -selection c"
+alias lf="lfub" 
+#alias lfub="lfcd"
+#alias lf="lfcd"
+alias logout="xfce4-session-logout --logout"
+### user function 
+
+## cat with pipe less 
+catl() {
+    batcat $1 | less
+}
+## batcat 
+catb() {
+    batcat $1 
+}
+## Editing the colors-wal-dwm.h for errorless makefile
+sdwm()  {
+	sed -i 'N;$!P;D' ~/.cache/wal/colors-wal-dwm.h
+}
+## listing files in current dir and monitoring them 
+ttl() {
+	ls -alsp | tree | less
+}
+## finding file in the current dir
+ttf() {
+	ls | fzf
+}
+## cmd shortcut
+..() {
+	cd ..
+}
+# To create the dir with file name for regulare work
+mkdir_date() {
+	mkdir $(date +%d-%b-%Y)
+}
+
+wallpaper() {
+    sxiv -tf /home/kali/pix/wallhaven/ 2>/dev/null
+}

@@ -1,22 +1,24 @@
 #!/bin/bash
 
-wa=$(ls ~/pix/wallhaven | shuf -n 1)
-#echo $wa 
-#convert "$wa" ~/.local/share/wallch.png
-#xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVirtual1/workspace0/last-image -s ~/pix/wallheace/"$wa"
+# Choosing wallpaper
+wa=$(ls ~/pix/wallhaven | shuf -n 20 | shuf -n 5 | shuf -n 1 )
 
+# Generating color pattle and changing wallpaper
 wal -qi ~/pix/wallhaven/$wa >/dev/null
-notify-send --expire-time=4 'Wallpaper Changed!!!'
-#feh --bg-fill ~/pix/wallheaven/$wa
-sed -i 'N;$!P;D' $HOME/.cache/wal/colors-wal-dwm.h
-# source ~/.local/bin/re_dwm & 
 
-#echo 'Recompiling the st '
-#(cd $HOME/.config/st-flexipatch && sudo make clean install > /dev/null )
-#echo 'Recompiling the Dmenu'
-#(cd $HOME/.config/dmenu && sudo make clean install > /dev/null )
-echo 'Recompiling the dwm'
-(cd $HOME/.config/dwm && sudo make clean install > /dev/null )
-#cd $HOME/.config/dwm 
-#echo "radio77" | sudo -S make clean install > /dev/null
-wal --preview
+# Updateing the firfox theme
+pywalfox update
+# notification of status
+notify-send --expire-time=4 'Wallpaper Changed!!!'
+
+# Editing the ..dwm.h file for successfull compilation of dwm 
+sed -i 'N;$!P;D' $HOME/.cache/wal/colors-wal-dwm.h
+
+
+#echo 'Recompiling the dwm'
+cd $HOME/.config/dwm 
+# auto entering the sudo passwd 
+#sudo make clean install > /dev/null
+echo "radio77" | sudo -S make clean install > /dev/null
+#sudo make clean install > /dev/null
+#wal --preview

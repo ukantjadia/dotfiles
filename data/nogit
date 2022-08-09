@@ -10,34 +10,40 @@ URL_OWN='https://github.com/UserCtf777'
 ## Comparing the dir base url to your base url 
 if [ "$URLM" == "$URL_OWN" ]
 then 
-    echo "remote url is $URL"
+    echo "Remote url is ::  $URL"
 # FFE : For Future Edit    
     #git status >> /dev/null
     #echo $?
     #if [ "$?" == 0 ]
+    echo "git status"
+    sleep 1
     #then 
     git status
     echo "Adding changes to git "
     ## Changes added 
     git add .
+    sleep 1
 
-    echo ''
-    print "Enter the commit message"
-    read comm
-    echo "Commiting the changes" 
+    echo "git commit -m "-Enter Message-""
+
+    #echo ''
+    #print "Enter the commit message"
+    read mesg 
+    #echo "Commiting the changes" 
     ## Changes are commited
-    git commit -m "$comm"
+    git commit -m "$mesg"
     sleep 1 # sleep for 1 sec
 
     ## Taking branch name 
     echo ''
+    # For git branch we can use git symbolic-ref HEAD
     branc=$(git branch | awk -v FS=' ' '{print $2}')
-    echo "You are on branch $branc"
+    echo -e "You are on branch ["$branc"]"
     ## asking to push the changes 
-    echo "Do you want it to push to the repo[y|n]"
-    read pus
+    echo "Do you want it to push changes to Project y|n "
+    read action
 
-    if [ "$pus" == "y" ]
+    if [ "$action" == "y" ]
     then 
 	echo ''
 	git push -u origin "$branc"

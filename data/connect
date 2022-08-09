@@ -1,0 +1,119 @@
+#!/bin/bash - 
+#===============================================================================
+#
+#          FILE: main.sh
+# 
+#         USAGE: ./main.sh 
+# 
+#   DESCRIPTION: 
+# 
+#       OPTIONS: ---
+#  REQUIREMENTS: ---
+#          BUGS: ---
+#         NOTES: ---
+#        AUTHOR: YOUR NAME (), 
+#  ORGANIZATION: 
+#       CREATED: 07/23/2022 00:41
+#      REVISION:  ---
+#===============================================================================
+
+set -o nounset                              # Treat unset variables as an error
+
+IP_BOOK=/home/kali/.local/file/ip_data.txt
+USER_BOOK=/home/kali/.local/file/user_data.txt
+
+function connect(){
+    option="Set Connection to Server\nAdd SSH Client User\nRemove SSH Client User\nExit"
+    select=$(echo -e $option | dmenu -l 9 -i -p "Choice: ")
+
+    if [[ "$select" == "Set Connection to Server" ]]; then
+        set_connection
+    elif [[ "$select" == "Add SSH Client User" ]]; then
+        loop
+    elif [[ "$select" == "Remove SSH Client User" ]]; then
+        del_loop
+    elif [[ "$select" == "Exit" ]]; then
+        exit 0
+    else
+        exit
+    fi
+}
+
+function set_connection(){
+    IP=$(cat $IP_BOOK | awk '{print $1}')
+    name=$(cat $USER_BOOK | awk '{print $1}')
+
+    ip=$(echo "$IP"  |  dmenu -i -l 9 -p "Select IP: ")
+
+    [[ "$ip" = "" ]] && exit 1
+    name1=$(echo "$name" | dmenu -i -l 9 -p "Select User: ")
+    [[ "$name" = "" ]] && exit 1
+    echo "ssh "$name1"@"$ip""
+    ssh "$name1"@"$ip"
+}
+
+function loop(){
+    while :; do
+        choice=$(echo -e "Enter Username\nEnter Hostname/IP\nExit"| dmenu -i -l 9 -p "Choice")
+        case "$choice" in
+            "Enter Username")
+                add_user
+                ;;
+            "Enter Hostname/IP")
+                add_ip
+                ;;
+            "Exit")
+                exit 0
+                ;;
+            *)
+                echo "Try again!!"
+        esac
+    done
+}
+
+function del_loop(){
+    while :; do
+        choice1=$(echo -e "To Delete User\nTo Delete Hostname/IP\nExit" | dmenu -i -l 9 -p "Choice")
+        case "$choice1" in
+            "To Delete User")
+                del_user
+                ;;
+            "To Delete Hostname/IP")
+                del_ip
+                ;;
+            "Exit")
+                exit 0
+                ;;
+            *)
+                echo "Try agian!!"
+        esac
+    done
+}
+function add_user(){
+    user=$(echo "" | dmenu -i -p "Enter Username: ")
+        echo $user >> $USER_BOOK
+}
+function add_ip(){
+    IP=$( echo "" | dmenu -i -p "Enter Hostname/IP: ")
+    echo $IP >> $IP_BOOK
+}
+function del_user(){
+    duser=$(cat $USER_BOOK | dmenu -i -l 9 -p "Select User: ")
+    if [[ $duser ]] ; then
+        sed "/^$duser/d" $USER_BOOK > /tmp/user.txt 
+        mv /tmp/user.txt $USER_BOOK
+    else
+        exit 0
+    fi
+}
+
+function del_ip(){
+    dip=$(cat $IP_BOOK | dmenu -i -l 9 -p "Select IP: ")
+    if [[ $dip  ]] ; then
+        sed "/^$dip/d" $IP_BOOK > /tmp/ip.txt
+        mv /tmp/ip.txt $IP_BOOK
+    else
+        exit 0
+    fi
+}
+connect

@@ -22,13 +22,35 @@ let mapleader=","
 :set nocompatible "Dont worry about VI compatability
 :set nohlsearch " Disable search highlighting 
 " Enabling the auto commenting on new line 
-    "autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+    autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 " goyo plugin edit
     map <leader>f :Goyo \| set bg=light \| set linebreak<CR>
+" This makes vim transparent in terminal by default
+hi Normal ctermbg=NONE
 
-
-
-
+let t:is_transparent = 0
+function! Toggle_transparent()
+   if t:is_transparent == 0
+       if has ('gui_running')
+           " Sets gVim to transparent
+           :silent !transset -a --dec 0.15 
+       else
+           " Sets vim to opaque
+           set background=dark
+       endif
+       let t:is_transparent = 1
+   else
+       if has ('gui_running')
+           " Sets gVim to opaque
+           :silent !transset -a --max 1 
+       else
+           " Sets vim to transparent
+           hi Normal ctermbg=NONE
+       endif
+       let t:is_transparent = 0
+   endif
+endfunction
+nnoremap <F1> : call Toggle_transparent()<CR>
 
 call plug#begin()
 
