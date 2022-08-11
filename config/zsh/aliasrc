@@ -48,7 +48,6 @@ ttf() {
 mkdir_date() {
 	mkdir $(date +%d-%b-%Y)
 }
-
 wallpaper() {
     sxiv -tf /home/kali/pix/wallhaven/ 2>/dev/null
 }
