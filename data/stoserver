@@ -1,0 +1,116 @@
+#!/usr/bin/env bash
+#===============================================================================
+#
+#          FILE: rsnc1.sh
+# 
+#         USAGE: ./rsnc1.sh 
+# 
+#   DESCRIPTION: 
+# 
+#       OPTIONS: ---
+#  REQUIREMENTS: ---
+#          BUGS: ---
+#         NOTES: ---
+#        AUTHOR: YOUR NAME (), 
+#  ORGANIZATION: 
+#       CREATED: 08/07/2022 21:25
+#      REVISION:  ---
+#===============================================================================
+
+#set -o nounset                              # Treat unset variables as an error
+
+function rsyncc() {
+    options="Upload a File\nCancle"
+    selected=$(echo -e $options | dmenu -l 3 -i -p "Select a File to Upload on Server")
+    if [[ "$selected" == "Upload a File" ]];then
+
+        target=$1
+        [ -z "$target" ] && target="$(realpath .)"
+
+        ls(){
+            echo ..
+            command ls -ALNpX1 --group-directories-first "$target"
+        }
+    elif [[ "$selected" == "Cancle" ]]; then
+        echo "Exiting... !!"
+        return
+    fi
+
+
+    while :;do
+        sel="$(ls | dmenu -l 20)" || exit
+        if [ "$(echo "$sel")" = "/" ];then
+            newt="$sel"
+        else
+            newt="$(realpath "$target/$sel")"
+        fi
+        if [ -e "$newt" ];then
+            target="$newt"
+            if [ ! -d "$target" ]; then
+                echo "File: $target"
+                upload
+                echo "Done. !!"
+                exit 0
+            fi
+        fi
+    done
+}
+
+function upload(){
+    if [ $target ]; then
+        user
+        ip
+        target_loc
+        sleep 1
+        cmd="rsync -avzh $target $user@$ip:$target2"
+        echo "Executing: $cmd"
+        eval $cmd
+    else
+        echo "Exiting... !!"
+        exit 0
+    fi
+}
+
+function target_loc(){
+    loc="/home/$user/\n/home/$user/got\n/home/\nExit"
+    target2=$(echo -e $loc | dmenu -l 9 -i -p "Enter the File Path for Serveer: " )
+    if [[ "$target2" == "Exit"  ]]; then
+        echo "Exiting... !!"
+        exit 0
+    elif [[ "$target2" == "exit"  ]]; then
+        echo "Exiting... !!"
+        exit 0
+    elif [ "$target2" ]; then
+        return $target2 2>/dev/null
+    else 
+        echo "Exiting... !!"
+        exit 0
+    fi
+}
+
+function user(){
+    user=$(cat /home/kali/.local/file/user_data.txt | dmenu -i -l 9 -p "Select User: " )
+    if [[ "$user" == "Exit" ]]; then 
+        echo "Exiting... !!"
+        exit 0
+    elif [ $user ]; then
+        return $user 2>/dev/null
+    else 
+        echo "Exiting... !!"
+        exit 0
+    fi
+}
+
+function ip(){
+    ip=$(cat /home/kali/.local/file/ip_data.txt | dmenu -i -l 9 -p "Select Hostname/IP: ")
+    if [[ "$ip" == "Exit" ]]; then
+        echo "Exiting... !!"
+        exit 0
+    elif [ $ip ]; then
+        return $ip 2>/dev/null
+    else
+        echo "Exiting... !!"
+        exit 0
+    fi
+}
+rsyncc
