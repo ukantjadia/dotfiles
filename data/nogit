@@ -40,7 +40,7 @@ then
     branc=$(git branch | awk -v FS=' ' '{print $2}')
     echo -e "You are on branch ["$branc"]"
     ## asking to push the changes 
-    echo "Do you want it to push changes to Project y|n "
+    echo "Do you want it to push changes to Project repo y|n "
     read action
 
     if [ "$action" == "y" ]

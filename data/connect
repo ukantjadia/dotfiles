@@ -94,11 +94,11 @@ function del_loop(){
 }
 function add_user(){
     user=$(echo "" | dmenu -i -p "Enter Username: ")
-        echo $user >> $USER_BOOK
+        echo $user | cat - $USER_BOOK | sponge $USER_BOOK
 }
 function add_ip(){
     IP=$( echo "" | dmenu -i -p "Enter Hostname/IP: ")
-    echo $IP >> $IP_BOOK
+    echo $IP | cat - $IP_BOOK | sponge $IP_BOOK
 }
 function del_user(){
     duser=$(cat $USER_BOOK | dmenu -i -l 9 -p "Select User: ")
