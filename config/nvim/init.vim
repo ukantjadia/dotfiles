@@ -1,4 +1,4 @@
-let mapleader=","
+let mapleader=";"
 :set relativenumber
 :set autoindent
 :set tabstop=8
@@ -10,6 +10,8 @@ let mapleader=","
 :set number
 :set incsearch
 :set autoread
+" seting the cursor in the mid of the screen
+:set scrolloff=999
 ":set noswapfile " Dont use swap files and clog up with work
 :set t_Co=256
 " setting split veiw
@@ -60,20 +62,19 @@ Plug 'vim-pandoc/vim-pandoc' " The pandoc vim plug for markdown
 Plug 'mrjones2014/smart-splits.nvim'
 Plug 'vim-pandoc/vim-pandoc-syntax' " The pandoc plug require the systax plug in also
 Plug 'dracula/vim',{'as':'dracula'} " Dracula theme for nivm 
-Plug 'http://github.com/tpope/vim-surround' " Surrounding ysw)
-Plug 'https://github.com/preservim/nerdtree' " NerdTree
-Plug 'https://github.com/tpope/vim-commentary' " For Commenting gcc & gc
+Plug 'tpope/vim-surround' " Surrounding ysw)
+Plug 'preservim/nerdtree' " NerdTree
+Plug 'tpope/vim-commentary' " For Commenting gcc & gc
 Plug 'jiangmiao/auto-pairs' " for automatically clses paraenthieses,square
 Plug 'https://github.com/vim-airline/vim-airline' " Status bar
 "Plug 'https://github.com/lifepillar/pgsql.vim' " PSQL Pluging needs :SQLSetType pgsql.vim
-Plug 'https://github.com/ap/vim-css-color' " CSS Color Preview
-Plug 'https://github.com/rafi/awesome-vim-colorschemes' " Retro Scheme
-Plug 'https://github.com/neoclide/coc.nvim'  " Auto Completion
-Plug 'https://github.com/ryanoasis/vim-devicons' " Developer Icons
-Plug 'https://github.com/tc50cal/vim-terminal' " Vim Terminal
-Plug 'https://github.com/preservim/tagbar' " Tagbar for code navigation
-Plug 'https://github.com/terryma/vim-multiple-cursors' " CTRL + N for multiple cursors
-"Plug 'nvim-telescope/telescope.nvim' " telecope like fuzzy file finder
+Plug 'ap/vim-css-color' " CSS Color Preview
+Plug 'rafi/awesome-vim-colorschemes' " Retro Scheme
+Plug 'neoclide/coc.nvim'  " Auto Completion
+Plug 'ryanoasis/vim-devicons' " Developer Icons
+Plug 'preservim/tagbar' " Tagbar for code navigation
+Plug 'terryma/vim-multiple-cursors' " CTRL + N for multiple cursors
+"Plug nvim-telescope/telescope.nvim' " telecope like fuzzy file finder
 Plug 'nvim-telescope/telescope-fzf-native.nvim',{ 'do': 'make' } " telecope like fuzzy file finder
 Plug 'ellisonleao/glow.nvim', {'branch': 'main'}
 " for markdown editor
@@ -82,24 +83,103 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' } " same a
 " Plugins for bash script
 Plug 'vim-scripts/bats.vim'
 Plug 'vim-scripts/bash-support.vim'
-Plug 'auxiliary/vim-layout'
 " fuzzy finder for files
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " fuzzy finder for files
 Plug 'junegunn/fzf.vim'
+" Plug for html
+Plug 'othree/html5-syntax.vim'
+Plug 'pbrisbin/vim-syntax-shakespeare'
+Plug 'valloric/matchtagalways'
+Plug 'alvan/vim-closetag'
+"   Latex 
+Plug 'lervag/vimtex'
+Plug 'xuhdev/vim-latex-live-preview',{'for': 'tex'}
+
+" tmux
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'edkolev/tmuxline.vim'
+
 
 call plug#end()
+"let g:tmuxline_preset = {
+"      \'a'    : '#S',
+"      \'c'    : ['#(current_pane_path)'],
+"      \'win'  : ['#I', '#W'],
+"      \'cwin' : ['#I', '#W', '#F'],
+"      \'y'    : ['%R', '%a', '%Y'],
+"      \'z'    : '#H'}
+"
+let g:tmuxline_preset = 'tmux' 
+let g:tmuxline_powerline_separators = 0
+
+let g:tmux_navigator_no_mappings = 1
+
+nnoremap <silent> {Left-Mapping} :TmuxNavigateLeft<cr>
+nnoremap <silent> {Down-Mapping} :TmuxNavigateDown<cr>
+nnoremap <silent> {Up-Mapping} :TmuxNavigateUp<cr>
+nnoremap <silent> {Right-Mapping} :TmuxNavigateRight<cr>
+nnoremap <silent> {Previous-Mapping} :TmuxNavigatePrevious<cr>
+
 
 " key maps edits
+
+"""latex start 
+autocmd FileType tex setl updatetime=3000
+let g:livepreview_previewer = 'zathura'
+autocmd FileType tex nnoremap <C-t> :w<Enter>:!bibtex<Space><C-R>%<Backspace><Backspace><Backspace><Enter>
+
+inoremap <leader><leader> <Esc>/(<>)<Enter>"_c4l
+vnoremap <leader><leader> <Esc>/(<>)<Enter>"_c4l
+map <leader><leader> <Esc>/(<>)<Enter>"_c4l
+
+autocmd FileType tex inoremap ;fr \frac{}{(<>)} <Space> (<>) <Esc>I<Esc>f}i
+autocmd FileType tex inoremap ;da \date{} <Space><Enter>(<>) <Esc>1kf}i 
+autocmd FileType tex inoremap ;ti \title{} <Space><Enter>(<>)<Esc>1kf}i
+autocmd FileType tex inoremap ;au \author{} <Space><Enter>(<>)<Esc>1kf}i
+autocmd FileType tex inoremap ;doc \documentclass{} <Space><Enter>(<>)<Esc>1kf}i
+autocmd FileType tex inoremap ;ne \newline<Space><Enter>(<>)<Esc>T{i
+autocmd FileType tex inoremap ;em \emph{}<Space>(<>)<Esc>T{i
+autocmd FileType tex inoremap ;bf \textbf{}<Space>(<>)<Esc>T{i
+autocmd FileType tex inoremap ;it \textit{}<Space>(<>)<Esc>T{i
+autocmd FileType tex inoremap ;c \cite{}<Space>(<>)<Esc>T{i
+autocmd FileType tex inoremap ;p \citep{}<Space>(<>)<Esc>T{i
+autocmd FileType tex inoremap ;x \begin{xlist}<Enter>\ex<Space><Enter>\end{xlist}<Esc>kA<Space>
+autocmd FileType tex inoremap ;ol \begin{enumerate}<Enter><Enter>\end{enumerate}<Enter><Enter>(<>)<Esc>3kA\item<Space>(<>)<Enter>\item (<>)<Enter>\item (<>)<Esc>2kF\  
+autocmd FileType tex inoremap ;ul \begin{itemize}<Enter><Enter>\end{itemize}<Enter><Enter>(<>)<Esc>3kA\item<Space>(<>)<Enter>\item (<>)<Enter>\item (<>)<Esc>2kF\  
+autocmd FileType tex inoremap ;r \ref{}<Space>(<>)<Esc>T{i
+autocmd FileType tex inoremap ;be \begin{%DELRN%}<Enter>(<>)<Enter>\end{%DELRN%}<Enter><Enter>(<>)<Esc>F(8X<Space><Esc>4kf{:MultipleCursorsFind<Space>%DELRN%<Enter>c
+autocmd FileType tex inoremap ;a \href{}<Space>(<>)<Esc>T{i
+autocmd FileType tex inoremap ;sec \section{}<Enter><Enter>(<>)<Esc>2kf}i
+autocmd FileType tex inoremap ;ssec \subsection{}<Enter><Enter>(<>)<Esc>2kf}i
+autocmd FileType tex inoremap ;sssec \subsubsection{}<Enter><Enter>(<>)<Esc>2kf}i
+autocmd FileType tex inoremap ;up \usepackage{}<Space><Enter>(<>)<Esc>1kf}i
+ 
+
+
+""" latex end 
+
+
+
+
+
+
+
+
+
+
+
+
 " split navigation
 nnoremap <C-J> <C-J>
 nnoremap <C-K> <C-K>
 nnoremap <C-L> <C-L>
 nnoremap <C-H> <C-H>
 " Fzf keymaps
-    nnoremap <C-c> :Color<CR>
+    nnoremap <C-i> :Color<CR>
     nnoremap <C-f> :Files<CR>
 " CTRL-/ will t-popes commentary for commenting out code
-    map <C-/> gcc
+   map <leader>q !: pdflatex % <CR><CR>
+   map <leader>x !: mupdf-x11 $(echo% \| sed 's/tex$/pdf/' ) & disown <CR>
 "
 
 " fzf setting layout 
@@ -116,17 +196,24 @@ nnoremap <silent> <C-S-Left> :vertical resize +3<CR>
 nnoremap <silent> <C-S-Right> :vertical resize -3<CR>
 
 
-
-"Compile document, be it groff/latex/markdown/etc. 
-    map <leader>c :w! \| !compiler <c-r>%<CR>
-" Turn on Autocompiler mode 
-    map <leader>a :!setsid autocomp % &<CR>
-"Open corresponding .pdf/.html or preview 
-    map <leader>p :!opout <c-r>%<CR><CR>    
-    
-
+" To add ymal to md files
+    map <leader>y :!add_1_line % <CR><CR>
+"" To go in navigation mode
+    map <leader>q :e . <CR>
+""Compile document, be it groff/latex/markdown/etc. 
+"    map <leader>c :w! \| !compiler <c-r>%<CR>
+"" Turn on Autocompiler mode 
+"    map <leader>a :!setsid autocomp % &<CR>
+""Open corresponding .pdf/.html or preview 
+"    map <leader>p :!opout <c-r>%<CR><CR>    
+" To conver md files to html
+    map <leader>o :!md-to-html % <CR>    
+" Trying to render only name of file % it is giving whole real path of file
+    "map <leader>s :w <CR>:w! $HOME/.local/home/diary/diary-md/('<c-r>%').md<CR>
+  "  map <leader>s :w <CR>:w! $HOME/.local/new-site/ukant/content/daily//%:t.md<CR>
+     map <leader>s :w <CR>:w! $HOME/.local/test/content/Ukant//%:t.md<CR>
 " When shortcut files are updated, renew bash and ranger configs with new material:
-    autocmd BufWritePost bm-files,bm-dirs !shortcuts
+    "autocmd BufWritePost bm-files,bm-dirs !shortcuts
 " Run xrdb whenever Xdefaults or Xresources are updated.
     autocmd BufRead,BufNewFile Xresources,Xdefaults,xresources,xdefaults set filetype=xdefaults
     autocmd BufWritePost Xresources,Xdefaults,xresources,xdefaults !xrdb %
@@ -142,23 +229,31 @@ nnoremap <silent> <C-S-Right> :vertical resize -3<CR>
 "    autocmd Filetype rmd map <F5> :RMarkdown html - quiet=FALSE - toc=FALSE<CR>
     autocmd Filetype rmd map <F5> :RMarkdown html <CR>
     "autocmd Filetype rmd map <F5> :RMarkdown html - quite=FALSE <CR>
+
     " Save file as sudo on files that require root permission
    cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
-
+" Source vim configuration file whenever it is saved
+if has ('autocmd')          " Remain compatible with earlier versions
+ augroup Reload_Vimrc       " Group name.  Always use a unique name!
+"    autocmd!                " Clear any preexisting autocommands from this group
+    autocmd! BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
+    autocmd! BufWritePost $MYGVIMRC if has('gui_running') | so % | echom "Reloaded " . $MYGVIMRC | endif | redraw
+  augroup END
+endif " has autocmd
 
 " kemaps for compiling and running the code
 " for CPP
-nnoremap cpp :!c++ % -o %:r && %:r:<CR>
-" ----
-"for C 
-nnoremap c :!gcc % -o %:r && %:r:<CR>
-" ----
-"for Python
-nnoremap py :python %<CR>
-" ----
-" for jaca
-nnoremap ,j :!javac % && java %:r<CR>
+"nnoremap cpp :!c++ % -o %:r && %:r:<CR>
+"" ----
+""for C 
+"nnoremap c :!gcc % -o %:r && %:r:<CR>
+"" ----
+""for Python
+"nnoremap py :python %<CR>
+"" ----
+"" for jaca
+"nnoremap ,j :!javac % && java %:r<CR>
 
 " for markdownpreview example
 nmap <C-s> <Plug>MarkdownPreview
@@ -183,18 +278,18 @@ autocmd FileType journal setlocal shiftwidth=2 tabstop=2 softtabstop=2
 " keymaps for the nerdTree
 "nnoremap <C-f> :NERDTreeFocus<CR>
 "nnoremap <C-n> :NERDTree<CR>
-nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <leader>q :NERDTreeToggle<CR>
 nnoremap <C-l> :call CocActionAsync('jumpDefinition')<CR>
 
 nmap <F8> :TagbarToggle<CR>
 
 
-":colorscheme dracula 
+:colorscheme dracula 
 ":colorscheme sonokai 
 ":colorscheme gotham  
 ":colorscheme onedark 
 ":colorscheme dogrun 
-:colorscheme purify
+":colorscheme purify
 
 let g:NERDTreeDirArrowExpandable="+"
 let g:NERDTreeDirArrowCollapsible="~"
