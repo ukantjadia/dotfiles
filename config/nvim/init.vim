@@ -132,6 +132,7 @@ inoremap <leader><leader> <Esc>/(<>)<Enter>"_c4l
 vnoremap <leader><leader> <Esc>/(<>)<Enter>"_c4l
 map <leader><leader> <Esc>/(<>)<Enter>"_c4l
 
+autocmd FileType tex inoremap ;ma \maketitle<Space><Enter>(<>)<Esc>I
 autocmd FileType tex inoremap ;fr \frac{}{(<>)} <Space> (<>) <Esc>I<Esc>f}i
 autocmd FileType tex inoremap ;da \date{} <Space><Enter>(<>) <Esc>1kf}i 
 autocmd FileType tex inoremap ;ti \title{} <Space><Enter>(<>)<Esc>1kf}i
