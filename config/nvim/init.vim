@@ -132,12 +132,13 @@ inoremap <leader><leader> <Esc>/(<>)<Enter>"_c4l
 vnoremap <leader><leader> <Esc>/(<>)<Enter>"_c4l
 map <leader><leader> <Esc>/(<>)<Enter>"_c4l
 
+autocmd FileType tex inoremap ;th \thanks{}<Space><Enter>(<>)<Esc>1kf}i 
 autocmd FileType tex inoremap ;ma \maketitle<Space><Enter>(<>)<Esc>I
-autocmd FileType tex inoremap ;fr \frac{}{(<>)} <Space> (<>) <Esc>I<Esc>f}i
-autocmd FileType tex inoremap ;da \date{} <Space><Enter>(<>) <Esc>1kf}i 
-autocmd FileType tex inoremap ;ti \title{} <Space><Enter>(<>)<Esc>1kf}i
-autocmd FileType tex inoremap ;au \author{} <Space><Enter>(<>)<Esc>1kf}i
-autocmd FileType tex inoremap ;doc \documentclass{} <Space><Enter>(<>)<Esc>1kf}i
+autocmd FileType tex inoremap ;fr \frac{}{(<>)}<Space>(<>)<Esc>I<Esc>f}i
+autocmd FileType tex inoremap ;da \date{}<Space><Enter>(<>)<Esc>1kf}i 
+autocmd FileType tex inoremap ;ti \title{}<Space><Enter>(<>)<Esc>1kf}i
+autocmd FileType tex inoremap ;au \author{}<Space><Enter>(<>)<Esc>1kf}i
+autocmd FileType tex inoremap ;doc \documentclass{}<Space><Enter>(<>)<Esc>1kf}i
 autocmd FileType tex inoremap ;ne \newline<Space><Enter>(<>)<Esc>T{i
 autocmd FileType tex inoremap ;em \emph{}<Space>(<>)<Esc>T{i
 autocmd FileType tex inoremap ;bf \textbf{}<Space>(<>)<Esc>T{i
@@ -150,8 +151,8 @@ autocmd FileType tex inoremap ;ul \begin{itemize}<Enter><Enter>\end{itemize}<Ent
 autocmd FileType tex inoremap ;r \ref{}<Space>(<>)<Esc>T{i
 autocmd FileType tex inoremap ;be \begin{%DELRN%}<Enter>(<>)<Enter>\end{%DELRN%}<Enter><Enter>(<>)<Esc>F(8X<Space><Esc>4kf{:MultipleCursorsFind<Space>%DELRN%<Enter>c
 autocmd FileType tex inoremap ;a \href{}<Space>(<>)<Esc>T{i
-autocmd FileType tex inoremap ;sec \section{}<Enter><Enter>(<>)<Esc>2kf}i
-autocmd FileType tex inoremap ;ssec \subsection{}<Enter><Enter>(<>)<Esc>2kf}i
+autocmd FileType tex inoremap ;sec \section{}<Enter>(<>)<Esc>1kf}i
+autocmd FileType tex inoremap ;ssec \subsection{}<Enter>(<>)<Esc>1kf}i
 autocmd FileType tex inoremap ;sssec \subsubsection{}<Enter><Enter>(<>)<Esc>2kf}i
 autocmd FileType tex inoremap ;up \usepackage{}<Space><Enter>(<>)<Esc>1kf}i
  
