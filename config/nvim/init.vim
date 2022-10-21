@@ -100,7 +100,28 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'edkolev/tmuxline.vim'
 
 
+" java 
+Plug 'SirVer/ultisnips'
+Plug 'artur-shaik/vim-javacomplete2'
+
 call plug#end()
+
+
+
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
+let g:JavaComplete_EnableDefaultMappings = 0
+nmap <F4> <Plug>(JavaComplete-Imports-AddSmart)
+imap <F4> <Plug>(JavaComplete-Imports-AddSmart)
+nmap <F5> <Plug>(JavaComplete-Imports-Add)
+imap <F5> <Plug>(JavaComplete-Imports-Add)
+
+
+
+
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
 "let g:tmuxline_preset = {
 "      \'a'    : '#S',
 "      \'c'    : ['#(current_pane_path)'],
@@ -122,6 +143,7 @@ nnoremap <silent> {Previous-Mapping} :TmuxNavigatePrevious<cr>
 
 
 " key maps edits
+map <F6> :setlocal spell spelllang=eg_us<CR>
 
 """latex start 
 autocmd FileType tex setl updatetime=3000
@@ -149,7 +171,7 @@ autocmd FileType tex inoremap ;x \begin{xlist}<Enter>\ex<Space><Enter>\end{xlist
 autocmd FileType tex inoremap ;ol \begin{enumerate}<Enter><Enter>\end{enumerate}<Enter><Enter>(<>)<Esc>3kA\item<Space>(<>)<Enter>\item (<>)<Enter>\item (<>)<Esc>2kF\  
 autocmd FileType tex inoremap ;ul \begin{itemize}<Enter><Enter>\end{itemize}<Enter><Enter>(<>)<Esc>3kA\item<Space>(<>)<Enter>\item (<>)<Enter>\item (<>)<Esc>2kF\  
 autocmd FileType tex inoremap ;r \ref{}<Space>(<>)<Esc>T{i
-autocmd FileType tex inoremap ;be \begin{%DELRN%}<Enter>(<>)<Enter>\end{%DELRN%}<Enter><Enter>(<>)<Esc>F(8X<Space><Esc>4kf{:MultipleCursorsFind<Space>%DELRN%<Enter>c
+autocmd FileType tex inoremap ;be \begin{%DELRN%}<Enter>(<>)<Enter>\end{%DELRN%}<Enter>(<>)<Esc>F(8X<Space><Esc>1kf\4X<Esc>2kf{:MultipleCursorsFind<Space>%DELRN%<Enter>c
 autocmd FileType tex inoremap ;a \href{}<Space>(<>)<Esc>T{i
 autocmd FileType tex inoremap ;sec \section{}<Enter>(<>)<Esc>1kf}i
 autocmd FileType tex inoremap ;ssec \subsection{}<Enter>(<>)<Esc>1kf}i
@@ -177,7 +199,7 @@ nnoremap <C-K> <C-K>
 nnoremap <C-L> <C-L>
 nnoremap <C-H> <C-H>
 " Fzf keymaps
-    nnoremap <C-i> :Color<CR>
+    nnoremap <C-o> :Color<CR>
     nnoremap <C-f> :Files<CR>
 " CTRL-/ will t-popes commentary for commenting out code
    map <leader>q !: pdflatex % <CR><CR>
