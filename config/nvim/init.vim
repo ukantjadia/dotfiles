@@ -70,7 +70,8 @@ Plug 'https://github.com/vim-airline/vim-airline' " Status bar
 "Plug 'https://github.com/lifepillar/pgsql.vim' " PSQL Pluging needs :SQLSetType pgsql.vim
 Plug 'ap/vim-css-color' " CSS Color Preview
 Plug 'rafi/awesome-vim-colorschemes' " Retro Scheme
-Plug 'neoclide/coc.nvim'  " Auto Completion
+"Plug 'neoclide/coc.nvim', {'branch': 'release'} " auto completion
+"Plug 'neoclide/coc.nvim'  " Auto Completion
 Plug 'ryanoasis/vim-devicons' " Developer Icons
 Plug 'preservim/tagbar' " Tagbar for code navigation
 Plug 'terryma/vim-multiple-cursors' " CTRL + N for multiple cursors
@@ -101,27 +102,60 @@ Plug 'edkolev/tmuxline.vim'
 
 
 " java 
-Plug 'SirVer/ultisnips'
-Plug 'artur-shaik/vim-javacomplete2'
+"Plug 'SirVer/ultisnips'
+"Plug 'ncm2/ncm2-ultisnips'
+""Plug 'artur-shaik/vim-javacomplete2'
+"Plug 'neoclide/coc-java'
+"Plug 'autozimu/LanguageClient-neovim', {
+"    \ 'branch': 'next',
+"    \ 'do': 'bash install.sh',
+"    \ }
+"Plug 'ncm2/ncm2'
+"Plug 'roxma/nvim-yarp'
+
+
 
 call plug#end()
 
+" Press enter key to trigger snippet expansion
+" The parameters are the same as `:help feedkeys()`
+"inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
+"autocmd BufEnter * call ncm2#enable_for_buffer()
+"set completeopt=noinsert,menuone,noselect
+"inoremap <c-y> <ESC>
+"
+"" Required for operations modifying multiple buffers like rename.
+"set hidden
+"
+"let g:LanguageClient_serverCommands = {
+"    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+"    \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+"    \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+"    \ 'python': ['/usr/local/bin/pyls'],
+"    \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
+"    \ }
+"
+"" note that if you are using Plug mapping you should not use `noremap` mappings.
+"nmap <F5> <Plug>(lcn-menu)
+"" Or map each action separately
+"nmap <silent>K <Plug>(lcn-hover)
+"nmap <silent> gd <Plug>(lcn-definition)
+"nmap <silent> <F2> <Plug>(lcn-rename)
+"set runtimepath^=~/.local/share/nvim/vim-javacomplete2/
+"autocmd FileType java setlocal omnifunc=javacomplete#Complete
+"let g:JavaComplete_EnableDefaultMappings = 0
+"nmap <F4> <Plug>(JavaComplete-Imports-AddSmart)
+"imap <F4> <Plug>(JavaComplete-Imports-AddSmart)
+"nmap <F5> <Plug>(JavaComplete-Imports-Add)
+"imap <F5> <Plug>(JavaComplete-Imports-Add)
+"
 
 
-autocmd FileType java setlocal omnifunc=javacomplete#Complete
-let g:JavaComplete_EnableDefaultMappings = 0
-nmap <F4> <Plug>(JavaComplete-Imports-AddSmart)
-imap <F4> <Plug>(JavaComplete-Imports-AddSmart)
-nmap <F5> <Plug>(JavaComplete-Imports-Add)
-imap <F5> <Plug>(JavaComplete-Imports-Add)
 
-
-
-
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
+"let g:UltiSnipsExpandTrigger="<tab>"
+"let g:UltiSnipsJumpForwardTrigger="<c-b>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+"
 "let g:tmuxline_preset = {
 "      \'a'    : '#S',
 "      \'c'    : ['#(current_pane_path)'],
@@ -144,6 +178,15 @@ nnoremap <silent> {Previous-Mapping} :TmuxNavigatePrevious<cr>
 
 " key maps edits
 map <F6> :setlocal spell spelllang=eg_us<CR>
+
+" java snippest
+autocmd FileType java inoremap ;cls class<Space>(<>)<Enter>{<Space><Enter>public static void main(String args[])<Enter>{<Space><Enter>(<>)<Enter>}<Enter>}<Esc>6kf(c4l
+autocmd FileType java inoremap ;pr System.out.println("(<>)"(<>));<Esc>F"c4h
+map <F4> :!java % <CR>
+
+
+
+
 
 """latex start 
 autocmd FileType tex setl updatetime=3000
