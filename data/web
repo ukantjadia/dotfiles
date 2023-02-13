@@ -1,0 +1,4 @@
+#!/bin/bash - 
+STYLE="/home/kali/.local/website/resume/md-website-cv/dracula.css"
+NAME=$(echo "$1" | cut -d '.' -f1)
+pandoc $1 -s -c $STYLE --toc -o $NAME.html
